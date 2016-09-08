@@ -170,7 +170,7 @@ namespace Shaman
 
 
 
-        private static string[] SpaceArray = new[] { " " };
+        private readonly static string[] SpaceArray = new[] { " " };
 
         public static List<string> GetDistinctWords(string text, bool removeAccentMarks)
         {
@@ -192,6 +192,7 @@ namespace Shaman
         [Configuration]
         public static string Configuration_LanguageModelsPath = "Awdee2.Declarative/LanguageModels.dat";
 
+        [StaticFieldCategory(StaticFieldCategory.Stable)]
         private static RankedLanguageIdentifier _languageIdentifier;
         internal static RankedLanguageIdentifier LanguageIdentifier
         {
@@ -272,7 +273,11 @@ namespace Shaman
             //var tempBytes = Encoding.GetEncoding("latin2").GetBytes(text);
             //return Encoding.UTF8.GetString(tempBytes, 0, tempBytes.Length).ToLower();
             //#else
-            string normalizedString = text.Normalize(NormalizationForm.FormD);
+#if NET35
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+#else
+            var normalizedString = NormalizeStringFunction != null ? NormalizeStringFunction(text, NormalizationForm.FormD) : text.Normalize(NormalizationForm.FormD);  
+#endif
             StringBuilder stringBuilder = ReseekableStringBuilder.AcquirePooledStringBuilder();
             for (int i = 0; i < normalizedString.Length; i++)
             {
@@ -381,7 +386,12 @@ namespace Shaman
 
         }
 
-
+#if !NET35
+#if !STANDALONE
+        [StaticFieldCategory(StaticFieldCategory.Configuration)]
+#endif
+        public static Func<string, NormalizationForm, string> NormalizeStringFunction;
+#endif
 
         public static bool ContainsAllWords(string text, IEnumerable<string> requiredWords, bool removeAccentMarks)
         {
