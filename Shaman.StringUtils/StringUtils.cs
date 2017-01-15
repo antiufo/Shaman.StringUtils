@@ -386,7 +386,7 @@ namespace Shaman
 
         }
 
-#if !NET35
+#if !NET35 && !SALTARELLE
 #if !STANDALONE
         [StaticFieldCategory(StaticFieldCategory.Configuration)]
 #endif
