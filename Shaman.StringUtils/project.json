@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1.2",
+  "version": "1.0.1.3",
   "compilationOptions": {
     "keyFile": "ShamanOpenSourceKey.snk",
     "define": [
@@ -14,7 +14,7 @@
   "projectUrl": "http://shaman.io/",
   "compile": [],
   "dependencies": {
-    "Shaman.ValueString": "1.0.2.15"
+    "Shaman.ValueString": "1.0.2.29"
   },
   "frameworks": {
     "net35": {
