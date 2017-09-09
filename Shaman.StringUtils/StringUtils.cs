@@ -222,6 +222,7 @@ namespace Shaman
 
         public static string DetectLanguage(string text)
         {
+            if (string.IsNullOrEmpty(text)) return null;
             return FullTextIndexing.ThreeToTwoLetterLanguageCode(LanguageIdentifier.Identify(text).FirstOrDefault()?.Item1.Iso639_2T);
         }
 #endif
